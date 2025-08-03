@@ -1,0 +1,2526 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.3, pytest-8.4.1, pluggy-1.6.0
+rootdir: D:\ai_coding\CS336\assignment1-basics-main
+configfile: pyproject.toml
+plugins: jaxtyping-0.3.2
+collected 48 items
+
+tests/test_data.py::test_get_batch FAILED
+tests/test_model.py::test_linear PASSED
+tests/test_model.py::test_embedding PASSED
+tests/test_model.py::test_swiglu PASSED
+tests/test_model.py::test_scaled_dot_product_attention PASSED
+tests/test_model.py::test_4d_scaled_dot_product_attention PASSED
+tests/test_model.py::test_multihead_self_attention debug torch.Size([4, 4, 12, 16]) torch.Size([4, 4, 12, 16]) torch.Size([4, 4, 12, 16])
+debug torch.Size([4, 12, 64])
+FAILED
+tests/test_model.py::test_multihead_self_attention_with_rope FAILED
+tests/test_model.py::test_transformer_lm FAILED
+tests/test_model.py::test_transformer_lm_truncated_input FAILED
+tests/test_model.py::test_transformer_block FAILED
+tests/test_model.py::test_rmsnorm FAILED
+tests/test_model.py::test_rope FAILED
+tests/test_model.py::test_silu_matches_pytorch FAILED
+tests/test_nn_utils.py::test_softmax_matches_pytorch FAILED
+tests/test_nn_utils.py::test_cross_entropy FAILED
+tests/test_nn_utils.py::test_gradient_clipping FAILED
+tests/test_optimizer.py::test_adamw FAILED
+tests/test_optimizer.py::test_get_lr_cosine_schedule FAILED
+tests/test_serialization.py::test_checkpointing FAILED
+tests/test_tokenizer.py::test_roundtrip_empty FAILED
+tests/test_tokenizer.py::test_empty_matches_tiktoken FAILED
+tests/test_tokenizer.py::test_roundtrip_single_character FAILED
+tests/test_tokenizer.py::test_single_character_matches_tiktoken FAILED
+tests/test_tokenizer.py::test_roundtrip_single_unicode_character FAILED
+tests/test_tokenizer.py::test_single_unicode_character_matches_tiktoken FAILED
+tests/test_tokenizer.py::test_roundtrip_ascii_string FAILED
+tests/test_tokenizer.py::test_ascii_string_matches_tiktoken FAILED
+tests/test_tokenizer.py::test_roundtrip_unicode_string FAILED
+tests/test_tokenizer.py::test_unicode_string_matches_tiktoken FAILED
+tests/test_tokenizer.py::test_roundtrip_unicode_string_with_special_tokens FAILED
+tests/test_tokenizer.py::test_unicode_string_with_special_tokens_matches_tiktoken FAILED
+tests/test_tokenizer.py::test_overlapping_special_tokens FAILED
+tests/test_tokenizer.py::test_address_roundtrip FAILED
+tests/test_tokenizer.py::test_address_matches_tiktoken FAILED
+tests/test_tokenizer.py::test_german_roundtrip FAILED
+tests/test_tokenizer.py::test_german_matches_tiktoken FAILED
+tests/test_tokenizer.py::test_tinystories_sample_roundtrip FAILED
+tests/test_tokenizer.py::test_tinystories_matches_tiktoken FAILED
+tests/test_tokenizer.py::test_encode_special_token_trailing_newlines FAILED
+tests/test_tokenizer.py::test_encode_special_token_double_newline_non_whitespace FAILED
+tests/test_tokenizer.py::test_encode_iterable_tinystories_sample_roundtrip FAILED
+tests/test_tokenizer.py::test_encode_iterable_tinystories_matches_tiktoken FAILED
+tests/test_tokenizer.py::test_encode_iterable_memory_usage SKIPPED (...)
+tests/test_tokenizer.py::test_encode_memory_usage SKIPPED (rlimit su...)
+tests/test_train_bpe.py::test_train_bpe_speed FAILED
+tests/test_train_bpe.py::test_train_bpe FAILED
+tests/test_train_bpe.py::test_train_bpe_special_tokens FAILED
+
+================================== FAILURES ===================================
+_______________________________ test_get_batch ________________________________
+
+    def test_get_batch():
+        dataset = np.arange(0, 100)
+        context_length = 7
+        batch_size = 32
+        device = "cpu"
+    
+        # Sanity check to make sure that the random samples are indeed somewhat random.
+        starting_indices = Counter()
+        num_iters = 1000
+        for _ in range(num_iters):
+>           x, y = run_get_batch(
+                dataset=dataset,
+                batch_size=batch_size,
+                context_length=context_length,
+                device=device,
+            )
+
+tests\test_data.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dataset = array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
+       17, 18, 19, 20, 21, 22, 23, 24, 25, ...72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84,
+       85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99])
+batch_size = 32, context_length = 7, device = 'cpu'
+
+    def run_get_batch(
+        dataset: npt.NDArray, batch_size: int, context_length: int, device: str
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """
+        Given a dataset (a 1D numpy array of integers) and a desired batch size and
+        context length, sample language modeling input sequences and their corresponding
+        labels from the dataset.
+    
+        Args:
+            dataset (np.array): 1D numpy array of integer token IDs in the dataset.
+            batch_size (int): Desired batch size to sample.
+            context_length (int): Desired context length of each sampled example.
+            device (str): PyTorch device string (e.g., 'cpu' or 'cuda:0') indicating the device
+                to place the sampled input sequences and labels on.
+    
+        Returns:
+            Tuple of torch.LongTensors of shape (batch_size, context_length). The first tuple item
+            is the sampled input sequences, and the second tuple item is the corresponding
+            language modeling labels.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:458: NotImplementedError
+________________________ test_multihead_self_attention ________________________
+
+numpy_snapshot = <tests.conftest.NumpySnapshot object at 0x00000168E9B1F1D0>
+in_embeddings = tensor([[[-0.9414,  1.2632, -0.1838,  ..., -0.1941,  0.0048, -1.3165],
+         [ 0.0204, -0.1652,  0.2109,  ...,  0.6...73, -0.5486,  ...,  1.5676, -1.1472, -1.5822],
+         [ 1.5936, -0.4113,  0.6037,  ..., -0.6494,  1.2858,  0.4321]]])
+d_model = 64, n_heads = 4
+ts_state_dict = ({'layers.0.attn.k_proj.weight': tensor([[ 0.0890,  0.1049,  0.0980,  ...,  0.1314,  0.0594, -0.0206],
+        [ 0.027...7,  ...,  0.0380, -0.0240,  0.1170]]), ...}, {'context_length': 16, 'd_ff': 128, 'd_model': 64, 'ffn_type': None, ...})
+
+    def test_multihead_self_attention(numpy_snapshot, in_embeddings, d_model, n_heads, ts_state_dict):
+        d, _ = ts_state_dict
+        q_proj_weight, k_proj_weight, v_proj_weight, o_proj_weight = [
+            d[f"layers.0.attn.{k}_proj.weight"] for k in ["q", "k", "v", "output"]
+        ]
+        actual_output = run_multihead_self_attention(
+            d_model=d_model,
+            num_heads=n_heads,
+            q_proj_weight=q_proj_weight,
+            k_proj_weight=k_proj_weight,
+            v_proj_weight=v_proj_weight,
+            o_proj_weight=o_proj_weight,
+            in_features=in_embeddings,
+        )
+>       numpy_snapshot.assert_match(actual_output, atol=1e-6)
+
+tests\test_model.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tests.conftest.NumpySnapshot object at 0x00000168E9B1F1D0>
+actual = tensor([[[-0.1584,  0.1797,  0.0860,  ..., -0.6799, -0.2822, -0.2964],
+         [ 0.2055, -0.0746, -0.0173,  ..., -0.3...698, -0.0929],
+         [ 0.0557, -0.0646,  0.1166,  ...,  0.1165,  0.2191, -0.2087]]],
+       grad_fn=<ViewBackward0>)
+rtol = 0.0001, atol = 1e-06, test_name = 'test_multihead_self_attention'
+force_update = False
+
+    def assert_match(
+        self,
+        actual: _A | dict[str, _A],
+        rtol: float = 1e-4,
+        atol: float = 1e-2,
+        test_name: str | type[DEFAULT] = DEFAULT,
+        force_update: bool | type[DEFAULT] = DEFAULT,
+    ):
+        """
+        Assert that the actual array(s) matches the snapshot.
+    
+        Args:
+            actual: Single NumPy array or dictionary of named arrays
+            test_name: The name of the test (used for the snapshot file)
+            update: If True, update the snapshot instead of comparing
+        """
+        if force_update is DEFAULT:
+            force_update = self.default_force_update
+        if self.always_match_exact:
+            rtol = atol = 0
+        if test_name is DEFAULT:
+            assert self.default_test_name is not None, "Test name must be provided or set as default"
+            test_name = self.default_test_name
+    
+        snapshot_path = self._get_snapshot_path(test_name)
+    
+        # Convert single array to dictionary for consistent handling
+        arrays_dict = actual if isinstance(actual, dict) else {"array": actual}
+        arrays_dict = {k: _canonicalize_array(v) for k, v in arrays_dict.items()}
+    
+        # Load the snapshot
+        expected_arrays = dict(np.load(snapshot_path))
+    
+        # Verify all expected arrays are present
+        missing_keys = set(arrays_dict.keys()) - set(expected_arrays.keys())
+        if missing_keys:
+            raise AssertionError(f"Keys {missing_keys} not found in snapshot for {test_name}")
+    
+        # Verify all actual arrays are expected
+        extra_keys = set(expected_arrays.keys()) - set(arrays_dict.keys())
+        if extra_keys:
+            raise AssertionError(f"Snapshot contains extra keys {extra_keys} for {test_name}")
+    
+        # Compare all arrays
+        for key in arrays_dict:
+>           np.testing.assert_allclose(
+                _canonicalize_array(arrays_dict[key]),
+                expected_arrays[key],
+                rtol=rtol,
+                atol=atol,
+                err_msg=f"Array '{key}' does not match snapshot for {test_name}",
+            )
+E           AssertionError: 
+E           Not equal to tolerance rtol=0.0001, atol=1e-06
+E           Array 'array' does not match snapshot for test_multihead_self_attention
+E           Mismatched elements: 3072 / 3072 (100%)
+E           Max absolute difference among violations: 0.18310702
+E           Max relative difference among violations: 1125.3274
+E            ACTUAL: array([[[-0.158371,  0.17972 ,  0.086012, ..., -0.679863, -0.282208,
+E                    -0.296396],
+E                   [ 0.20548 , -0.074611, -0.017289, ..., -0.300365, -0.355625,...
+E            DESIRED: array([[[-0.240338,  0.141964, -0.04017 , ..., -0.746504, -0.343374,
+E                    -0.195468],
+E                   [ 0.124074, -0.107155, -0.14378 , ..., -0.386787, -0.425394,...
+
+tests\conftest.py:89: AssertionError
+___________________ test_multihead_self_attention_with_rope ___________________
+
+numpy_snapshot = <tests.conftest.NumpySnapshot object at 0x00000168E9BC0AF0>
+in_embeddings = tensor([[[-0.9414,  1.2632, -0.1838,  ..., -0.1941,  0.0048, -1.3165],
+         [ 0.0204, -0.1652,  0.2109,  ...,  0.6...73, -0.5486,  ...,  1.5676, -1.1472, -1.5822],
+         [ 1.5936, -0.4113,  0.6037,  ..., -0.6494,  1.2858,  0.4321]]])
+d_model = 64, n_heads = 4
+ts_state_dict = ({'layers.0.attn.k_proj.weight': tensor([[ 0.0890,  0.1049,  0.0980,  ...,  0.1314,  0.0594, -0.0206],
+        [ 0.027...7,  ...,  0.0380, -0.0240,  0.1170]]), ...}, {'context_length': 16, 'd_ff': 128, 'd_model': 64, 'ffn_type': None, ...})
+n_keys = 16, theta = 10000.0
+pos_ids = tensor([[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11]])
+
+    def test_multihead_self_attention_with_rope(
+        numpy_snapshot, in_embeddings, d_model, n_heads, ts_state_dict, n_keys, theta, pos_ids
+    ):
+        d, _ = ts_state_dict
+        q_proj_weight, k_proj_weight, v_proj_weight, o_proj_weight = [
+            d[f"layers.0.attn.{k}_proj.weight"] for k in ["q", "k", "v", "output"]
+        ]
+        pos_ids = rearrange(pos_ids, "seq -> 1 seq")
+>       actual_output = run_multihead_self_attention_with_rope(
+            d_model=d_model,
+            num_heads=n_heads,
+            max_seq_len=n_keys,
+            theta=theta,
+            q_proj_weight=q_proj_weight,
+            k_proj_weight=k_proj_weight,
+            v_proj_weight=v_proj_weight,
+            o_proj_weight=o_proj_weight,
+            in_features=in_embeddings,
+            token_positions=pos_ids,
+        )
+
+tests\test_model.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+d_model = 64, num_heads = 4, max_seq_len = 16, theta = 10000.0
+q_proj_weight = tensor([[ 0.0372, -0.0888,  0.2558,  ...,  0.0049, -0.2693, -0.1108],
+        [ 0.0520,  0.0837, -0.0109,  ..., -0.006...1974, -0.1546,  ..., -0.1313,  0.0992, -0.1394],
+        [-0.0936,  0.2000, -0.0574,  ..., -0.0828,  0.1563,  0.1365]])
+k_proj_weight = tensor([[ 0.0890,  0.1049,  0.0980,  ...,  0.1314,  0.0594, -0.0206],
+        [ 0.0271,  0.0840, -0.2509,  ..., -0.325...1004,  0.1376,  ...,  0.0082, -0.0004,  0.1317],
+        [-0.2910, -0.0298, -0.1720,  ..., -0.1184,  0.0639, -0.0232]])
+v_proj_weight = tensor([[-0.0538, -0.0038, -0.0073,  ...,  0.1269,  0.0679,  0.0620],
+        [-0.0155, -0.0231,  0.0393,  ...,  0.100...1402,  0.0214,  ...,  0.0210,  0.0694, -0.0717],
+        [ 0.0523,  0.0327,  0.0257,  ...,  0.0380, -0.0240,  0.1170]])
+o_proj_weight = tensor([[ 0.0676,  0.0116, -0.0078,  ..., -0.0227,  0.0357, -0.0327],
+        [ 0.0297,  0.1108, -0.1244,  ...,  0.081...0195,  0.0148,  ...,  0.0888,  0.0211,  0.0004],
+        [ 0.0432,  0.0543,  0.0269,  ..., -0.0546, -0.0417, -0.0533]])
+in_features = tensor([[[-0.9414,  1.2632, -0.1838,  ..., -0.1941,  0.0048, -1.3165],
+         [ 0.0204, -0.1652,  0.2109,  ...,  0.6...73, -0.5486,  ...,  1.5676, -1.1472, -1.5822],
+         [ 1.5936, -0.4113,  0.6037,  ..., -0.6494,  1.2858,  0.4321]]])
+token_positions = tensor([[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11]])
+
+    def run_multihead_self_attention_with_rope(
+        d_model: int,
+        num_heads: int,
+        max_seq_len: int,
+        theta: float,
+        q_proj_weight: Float[Tensor, " d_k d_in"],
+        k_proj_weight: Float[Tensor, " d_k d_in"],
+        v_proj_weight: Float[Tensor, " d_v d_in"],
+        o_proj_weight: Float[Tensor, " d_model d_v"],
+        in_features: Float[Tensor, " ... sequence_length d_in"],
+        token_positions: Int[Tensor, " ... sequence_length"] | None = None,
+    ) -> Float[Tensor, " ... sequence_length d_out"]:
+        """
+        Given the key, query, and value projection weights of a naive unbatched
+        implementation of multi-head attention, return the output of an optimized batched
+        implementation. This implementation should handle the key, query, and value projections
+        for all heads in a single matrix multiply.
+        This version of MHA should include RoPE.
+        In this case, the RoPE embedding dimension must be the head embedding dimension (d_model // num_heads).
+        See section 3.2.2 of Vaswani et al., 2017.
+    
+        Args:
+            d_model (int): Dimensionality of the feedforward input and output.
+            num_heads (int): Number of heads to use in multi-headed attention.
+            max_seq_len (int): Maximum sequence length to pre-cache if your implementation does that.
+            theta (float): RoPE parameter.
+            q_proj_weight (Float[Tensor, "d_k d_in"]): Weights for the Q projection
+            k_proj_weight (Float[Tensor, "d_k d_in"]): Weights for the K projection
+            v_proj_weight (Float[Tensor, "d_k d_in"]): Weights for the V projection
+            o_proj_weight (Float[Tensor, "d_model d_v"]): Weights for the output projection
+            in_features (Float[Tensor, "... sequence_length d_in"]): Tensor to run your implementation on.
+            token_positions (Int[Tensor, " ... sequence_length"] | None): Optional tensor with the positions of the tokens
+    
+        Returns:
+            Float[Tensor, " ... sequence_length d_out"]: Tensor with the output of running your optimized, batched multi-headed attention
+            implementation with the given QKV projection weights and input features.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:221: NotImplementedError
+_____________________________ test_transformer_lm _____________________________
+
+numpy_snapshot = <tests.conftest.NumpySnapshot object at 0x00000168E55A0AF0>
+vocab_size = 10000, n_keys = 16, d_model = 64, n_layers = 3, n_heads = 4
+d_ff = 128, theta = 10000.0
+ts_state_dict = ({'layers.0.attn.k_proj.weight': tensor([[ 0.0890,  0.1049,  0.0980,  ...,  0.1314,  0.0594, -0.0206],
+        [ 0.027...7,  ...,  0.0380, -0.0240,  0.1170]]), ...}, {'context_length': 16, 'd_ff': 128, 'd_model': 64, 'ffn_type': None, ...})
+in_indices = tensor([[5130, 8761, 2403, 3492, 2234, 1437, 5647, 7786, 1904, 6558, 9177, 7649],
+        [8235, 4285, 4217, 5482, 574... 861, 9322, 4143, 1833, 4502, 2050],
+        [ 907, 5061, 9813, 7793, 6212, 7893, 3454, 8112, 6322, 2511, 2434, 6879]])
+
+    def test_transformer_lm(
+        numpy_snapshot, vocab_size, n_keys, d_model, n_layers, n_heads, d_ff, theta, ts_state_dict, in_indices
+    ):
+        state_dict, _ = ts_state_dict
+    
+>       actual_output = run_transformer_lm(
+            vocab_size=vocab_size,
+            context_length=n_keys,
+            d_model=d_model,
+            num_layers=n_layers,
+            num_heads=n_heads,
+            d_ff=d_ff,
+            rope_theta=theta,
+            weights=state_dict,
+            in_indices=in_indices,
+        )
+
+tests\test_model.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_size = 10000, context_length = 16, d_model = 64, num_layers = 3
+num_heads = 4, d_ff = 128, rope_theta = 10000.0
+weights = {'layers.0.attn.k_proj.weight': tensor([[ 0.0890,  0.1049,  0.0980,  ...,  0.1314,  0.0594, -0.0206],
+        [ 0.0271... 0.0214,  ...,  0.0210,  0.0694, -0.0717],
+        [ 0.0523,  0.0327,  0.0257,  ...,  0.0380, -0.0240,  0.1170]]), ...}
+in_indices = tensor([[5130, 8761, 2403, 3492, 2234, 1437, 5647, 7786, 1904, 6558, 9177, 7649],
+        [8235, 4285, 4217, 5482, 574... 861, 9322, 4143, 1833, 4502, 2050],
+        [ 907, 5061, 9813, 7793, 6212, 7893, 3454, 8112, 6322, 2511, 2434, 6879]])
+
+    def run_transformer_lm(
+        vocab_size: int,
+        context_length: int,
+        d_model: int,
+        num_layers: int,
+        num_heads: int,
+        d_ff: int,
+        rope_theta: float,
+        weights: dict[str, Tensor],
+        in_indices: Int[Tensor, " batch_size sequence_length"],
+    ) -> Float[Tensor, " batch_size sequence_length vocab_size"]:
+        """Given the weights of a Transformer language model and input indices,
+        return the output of running a forward pass on the input indices.
+    
+        This function should use RoPE.
+    
+        Args:
+            vocab_size (int): The number of unique items in the output vocabulary to be predicted.
+            context_length (int): The maximum number of tokens to process at once.
+            d_model (int): The dimensionality of the model embeddings and sublayer outputs.
+            num_layers (int): The number of Transformer layers to use.
+            num_heads (int): Number of heads to use in multi-headed attention. `d_model` must be
+                evenly divisible by `num_heads`.
+            d_ff (int): Dimensionality of the feed-forward inner layer (section 3.3).
+            rope_theta (float): The RoPE $\Theta$ parameter.
+            weights (dict[str, Tensor]):
+                State dict of our reference implementation. {num_layers} refers to an
+                integer between `0` and `num_layers - 1` (the layer index).
+                The keys of this dictionary are:
+                - `token_embeddings.weight`
+                    Token embedding matrix. Shape is (vocab_size, d_model).
+                - `layers.{num_layers}.attn.q_proj.weight`
+                    The query projections for all `num_heads` attention heads.
+                    Shape is (num_heads * (d_model / num_heads), d_model).
+                    The rows are ordered by matrices of shape (num_heads, d_k),
+                    so `attn.q_proj.weight == torch.cat([q_heads.0.weight, ..., q_heads.N.weight], dim=0)`.
+                - `layers.{num_layers}.attn.k_proj.weight`
+                    The key projections for all `num_heads` attention heads.
+                    Shape is (num_heads * (d_model / num_heads), d_model).
+                    The rows are ordered by matrices of shape (num_heads, d_k),
+                    so `attn.k_proj.weight == torch.cat([k_heads.0.weight, ..., k_heads.N.weight], dim=0)`.
+                - `layers.{num_layers}.attn.v_proj.weight`
+                    The value projections for all `num_heads` attention heads.
+                    Shape is (num_heads * (d_model / num_heads), d_model).
+                    The rows are ordered by matrices of shape (num_heads, d_v),
+                    so `attn.v_proj.weight == torch.cat([v_heads.0.weight, ..., v_heads.N.weight], dim=0)`.
+                - `layers.{num_layers}.attn.output_proj.weight`
+                    Weight of the multi-head self-attention output projection
+                    Shape is ((d_model / num_heads) * num_heads, d_model).
+                - `layers.{num_layers}.ln1.weight`
+                    Weights of affine transform for the first RMSNorm
+                    applied in the transformer block.
+                    Shape is (d_model,).
+                - `layers.{num_layers}.ffn.w1.weight`
+                    Weight of the first linear transformation in the FFN.
+                    Shape is (d_model, d_ff).
+                - `layers.{num_layers}.ffn.w2.weight`
+                    Weight of the second linear transformation in the FFN.
+                    Shape is (d_ff, d_model).
+                - `layers.{num_layers}.ffn.w3.weight`
+                    Weight of the third linear transformation in the FFN.
+                    Shape is (d_model, d_ff).
+                - `layers.{num_layers}.ln2.weight`
+                    Weights of affine transform for the second RMSNorm
+                    applied in the transformer block.
+                    Shape is (d_model,).
+                - `ln_final.weight`
+                    Weights of affine transform for RMSNorm applied to the output of the final transformer block.
+                    Shape is (d_model, ).
+                - `lm_head.weight`
+                    Weights of the language model output embedding.
+                    Shape is (vocab_size, d_model).
+            in_indices (Int[Tensor, "batch_size sequence_length"]) Tensor with input indices to run the language model on. Shape is (batch_size, sequence_length), where
+                `sequence_length` is at most `context_length`.
+    
+        Returns:
+            Float[Tensor, "batch_size sequence_length vocab_size"]: Tensor with the predicted unnormalized
+            next-word distribution for each token.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:398: NotImplementedError
+_____________________ test_transformer_lm_truncated_input _____________________
+
+numpy_snapshot = <tests.conftest.NumpySnapshot object at 0x00000168E9B6EB50>
+vocab_size = 10000, n_keys = 16, d_model = 64, n_layers = 3, n_heads = 4
+d_ff = 128, theta = 10000.0
+ts_state_dict = ({'layers.0.attn.k_proj.weight': tensor([[ 0.0890,  0.1049,  0.0980,  ...,  0.1314,  0.0594, -0.0206],
+        [ 0.027...7,  ...,  0.0380, -0.0240,  0.1170]]), ...}, {'context_length': 16, 'd_ff': 128, 'd_model': 64, 'ffn_type': None, ...})
+in_indices = tensor([[5130, 8761, 2403, 3492, 2234, 1437, 5647, 7786, 1904, 6558, 9177, 7649],
+        [8235, 4285, 4217, 5482, 574... 861, 9322, 4143, 1833, 4502, 2050],
+        [ 907, 5061, 9813, 7793, 6212, 7893, 3454, 8112, 6322, 2511, 2434, 6879]])
+
+    def test_transformer_lm_truncated_input(
+        numpy_snapshot, vocab_size, n_keys, d_model, n_layers, n_heads, d_ff, theta, ts_state_dict, in_indices
+    ):
+        in_indices_truncated = in_indices[..., : in_indices.shape[-1] // 2]
+>       truncated_actual_output = run_transformer_lm(
+            vocab_size=vocab_size,
+            context_length=n_keys,
+            d_model=d_model,
+            num_layers=n_layers,
+            num_heads=n_heads,
+            d_ff=d_ff,
+            rope_theta=theta,
+            weights=ts_state_dict[0],
+            in_indices=in_indices_truncated,
+        )
+
+tests\test_model.py:140: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_size = 10000, context_length = 16, d_model = 64, num_layers = 3
+num_heads = 4, d_ff = 128, rope_theta = 10000.0
+weights = {'layers.0.attn.k_proj.weight': tensor([[ 0.0890,  0.1049,  0.0980,  ...,  0.1314,  0.0594, -0.0206],
+        [ 0.0271... 0.0214,  ...,  0.0210,  0.0694, -0.0717],
+        [ 0.0523,  0.0327,  0.0257,  ...,  0.0380, -0.0240,  0.1170]]), ...}
+in_indices = tensor([[5130, 8761, 2403, 3492, 2234, 1437],
+        [8235, 4285, 4217, 5482, 5743,  689],
+        [9452, 2404, 8779, 1759, 9010, 8197],
+        [ 907, 5061, 9813, 7793, 6212, 7893]])
+
+    def run_transformer_lm(
+        vocab_size: int,
+        context_length: int,
+        d_model: int,
+        num_layers: int,
+        num_heads: int,
+        d_ff: int,
+        rope_theta: float,
+        weights: dict[str, Tensor],
+        in_indices: Int[Tensor, " batch_size sequence_length"],
+    ) -> Float[Tensor, " batch_size sequence_length vocab_size"]:
+        """Given the weights of a Transformer language model and input indices,
+        return the output of running a forward pass on the input indices.
+    
+        This function should use RoPE.
+    
+        Args:
+            vocab_size (int): The number of unique items in the output vocabulary to be predicted.
+            context_length (int): The maximum number of tokens to process at once.
+            d_model (int): The dimensionality of the model embeddings and sublayer outputs.
+            num_layers (int): The number of Transformer layers to use.
+            num_heads (int): Number of heads to use in multi-headed attention. `d_model` must be
+                evenly divisible by `num_heads`.
+            d_ff (int): Dimensionality of the feed-forward inner layer (section 3.3).
+            rope_theta (float): The RoPE $\Theta$ parameter.
+            weights (dict[str, Tensor]):
+                State dict of our reference implementation. {num_layers} refers to an
+                integer between `0` and `num_layers - 1` (the layer index).
+                The keys of this dictionary are:
+                - `token_embeddings.weight`
+                    Token embedding matrix. Shape is (vocab_size, d_model).
+                - `layers.{num_layers}.attn.q_proj.weight`
+                    The query projections for all `num_heads` attention heads.
+                    Shape is (num_heads * (d_model / num_heads), d_model).
+                    The rows are ordered by matrices of shape (num_heads, d_k),
+                    so `attn.q_proj.weight == torch.cat([q_heads.0.weight, ..., q_heads.N.weight], dim=0)`.
+                - `layers.{num_layers}.attn.k_proj.weight`
+                    The key projections for all `num_heads` attention heads.
+                    Shape is (num_heads * (d_model / num_heads), d_model).
+                    The rows are ordered by matrices of shape (num_heads, d_k),
+                    so `attn.k_proj.weight == torch.cat([k_heads.0.weight, ..., k_heads.N.weight], dim=0)`.
+                - `layers.{num_layers}.attn.v_proj.weight`
+                    The value projections for all `num_heads` attention heads.
+                    Shape is (num_heads * (d_model / num_heads), d_model).
+                    The rows are ordered by matrices of shape (num_heads, d_v),
+                    so `attn.v_proj.weight == torch.cat([v_heads.0.weight, ..., v_heads.N.weight], dim=0)`.
+                - `layers.{num_layers}.attn.output_proj.weight`
+                    Weight of the multi-head self-attention output projection
+                    Shape is ((d_model / num_heads) * num_heads, d_model).
+                - `layers.{num_layers}.ln1.weight`
+                    Weights of affine transform for the first RMSNorm
+                    applied in the transformer block.
+                    Shape is (d_model,).
+                - `layers.{num_layers}.ffn.w1.weight`
+                    Weight of the first linear transformation in the FFN.
+                    Shape is (d_model, d_ff).
+                - `layers.{num_layers}.ffn.w2.weight`
+                    Weight of the second linear transformation in the FFN.
+                    Shape is (d_ff, d_model).
+                - `layers.{num_layers}.ffn.w3.weight`
+                    Weight of the third linear transformation in the FFN.
+                    Shape is (d_model, d_ff).
+                - `layers.{num_layers}.ln2.weight`
+                    Weights of affine transform for the second RMSNorm
+                    applied in the transformer block.
+                    Shape is (d_model,).
+                - `ln_final.weight`
+                    Weights of affine transform for RMSNorm applied to the output of the final transformer block.
+                    Shape is (d_model, ).
+                - `lm_head.weight`
+                    Weights of the language model output embedding.
+                    Shape is (vocab_size, d_model).
+            in_indices (Int[Tensor, "batch_size sequence_length"]) Tensor with input indices to run the language model on. Shape is (batch_size, sequence_length), where
+                `sequence_length` is at most `context_length`.
+    
+        Returns:
+            Float[Tensor, "batch_size sequence_length vocab_size"]: Tensor with the predicted unnormalized
+            next-word distribution for each token.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:398: NotImplementedError
+___________________________ test_transformer_block ____________________________
+
+numpy_snapshot = <tests.conftest.NumpySnapshot object at 0x00000168E9B6F150>
+ts_state_dict = ({'layers.0.attn.k_proj.weight': tensor([[ 0.0890,  0.1049,  0.0980,  ...,  0.1314,  0.0594, -0.0206],
+        [ 0.027...7,  ...,  0.0380, -0.0240,  0.1170]]), ...}, {'context_length': 16, 'd_ff': 128, 'd_model': 64, 'ffn_type': None, ...})
+in_embeddings = tensor([[[-0.9414,  1.2632, -0.1838,  ..., -0.1941,  0.0048, -1.3165],
+         [ 0.0204, -0.1652,  0.2109,  ...,  0.6...73, -0.5486,  ...,  1.5676, -1.1472, -1.5822],
+         [ 1.5936, -0.4113,  0.6037,  ..., -0.6494,  1.2858,  0.4321]]])
+d_model = 64, n_heads = 4, d_ff = 128, n_keys = 16, theta = 10000.0
+
+    def test_transformer_block(numpy_snapshot, ts_state_dict, in_embeddings, d_model, n_heads, d_ff, n_keys, theta):
+        block_weights = {k.replace("layers.0.", ""): v for k, v in ts_state_dict[0].items() if "layers.0." in k}
+    
+>       actual_output = run_transformer_block(
+            d_model=d_model,
+            num_heads=n_heads,
+            d_ff=d_ff,
+            max_seq_len=n_keys,
+            theta=theta,
+            weights=block_weights,
+            in_features=in_embeddings,
+        )
+
+tests\test_model.py:161: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+d_model = 64, num_heads = 4, d_ff = 128, max_seq_len = 16, theta = 10000.0
+weights = {'attn.k_proj.weight': tensor([[ 0.0890,  0.1049,  0.0980,  ...,  0.1314,  0.0594, -0.0206],
+        [ 0.0271,  0.0840... 0.0214,  ...,  0.0210,  0.0694, -0.0717],
+        [ 0.0523,  0.0327,  0.0257,  ...,  0.0380, -0.0240,  0.1170]]), ...}
+in_features = tensor([[[-0.9414,  1.2632, -0.1838,  ..., -0.1941,  0.0048, -1.3165],
+         [ 0.0204, -0.1652,  0.2109,  ...,  0.6...73, -0.5486,  ...,  1.5676, -1.1472, -1.5822],
+         [ 1.5936, -0.4113,  0.6037,  ..., -0.6494,  1.2858,  0.4321]]])
+
+    def run_transformer_block(
+        d_model: int,
+        num_heads: int,
+        d_ff: int,
+        max_seq_len: int,
+        theta: float,
+        weights: dict[str, Tensor],
+        in_features: Float[Tensor, " batch sequence_length d_model"],
+    ) -> Float[Tensor, " batch sequence_length d_model"]:
+        """
+        Given the weights of a pre-norm Transformer block and input features,
+        return the output of running the Transformer block on the input features.
+    
+        This function should use RoPE.
+        Depending on your implementation, you may simply need to pass the relevant args
+        to your TransformerBlock constructor, or you may need to initialize your own RoPE
+        class and pass that instead.
+    
+        Args:
+            d_model (int): The dimensionality of the Transformer block input.
+            num_heads (int): Number of heads to use in multi-headed attention. `d_model` must be
+                evenly divisible by `num_heads`.
+            d_ff (int): Dimensionality of the feed-forward inner layer.
+            max_seq_len (int): Maximum sequence length to pre-cache if your implementation does that.
+            theta (float): RoPE parameter.
+            weights (dict[str, Tensor]):
+                State dict of our reference implementation.
+                The keys of this dictionary are:
+                - `attn.q_proj.weight`
+                    The query projections for all `num_heads` attention heads.
+                    Shape is (d_model, d_model).
+                    The rows are ordered by matrices of shape (num_heads, d_k),
+                    so `attn.q_proj.weight == torch.cat([q_heads.0.weight, ..., q_heads.N.weight], dim=0)`.
+                - `attn.k_proj.weight`
+                    The key projections for all `num_heads` attention heads.
+                    Shape is (d_model, d_model).
+                    The rows are ordered by matrices of shape (num_heads, d_k),
+                    so `attn.k_proj.weight == torch.cat([k_heads.0.weight, ..., k_heads.N.weight], dim=0)`.
+                - `attn.v_proj.weight`
+                    The value projections for all `num_heads` attention heads.
+                    Shape is (d_model, d_model).
+                    The rows are ordered by matrices of shape (num_heads, d_v),
+                    so `attn.v_proj.weight == torch.cat([v_heads.0.weight, ..., v_heads.N.weight], dim=0)`.
+                - `attn.output_proj.weight`
+                    Weight of the multi-head self-attention output projection
+                    Shape is (d_model, d_model).
+                - `ln1.weight`
+                    Weights of affine transform for the first RMSNorm
+                    applied in the transformer block.
+                    Shape is (d_model,).
+                - `ffn.w1.weight`
+                    Weight of the first linear transformation in the FFN.
+                    Shape is (d_model, d_ff).
+                - `ffn.w2.weight`
+                    Weight of the second linear transformation in the FFN.
+                    Shape is (d_ff, d_model).
+                - `ffn.w3.weight`
+                    Weight of the third linear transformation in the FFN.
+                    Shape is (d_model, d_ff).
+                - `ln2.weight`
+                    Weights of affine transform for the second RMSNorm
+                    applied in the transformer block.
+                    Shape is (d_model,).
+            in_features (Float[Tensor, "batch sequence_length d_model"]):
+                Tensor to run your implementation on.
+    
+        Returns:
+            Float[Tensor, "batch sequence_length d_model"] Tensor with the output of
+            running the Transformer block on the input features while using RoPE.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:316: NotImplementedError
+________________________________ test_rmsnorm _________________________________
+
+numpy_snapshot = <tests.conftest.NumpySnapshot object at 0x00000168E56E87D0>
+ts_state_dict = ({'layers.0.attn.k_proj.weight': tensor([[ 0.0890,  0.1049,  0.0980,  ...,  0.1314,  0.0594, -0.0206],
+        [ 0.027...7,  ...,  0.0380, -0.0240,  0.1170]]), ...}, {'context_length': 16, 'd_ff': 128, 'd_model': 64, 'ffn_type': None, ...})
+in_embeddings = tensor([[[-0.9414,  1.2632, -0.1838,  ..., -0.1941,  0.0048, -1.3165],
+         [ 0.0204, -0.1652,  0.2109,  ...,  0.6...73, -0.5486,  ...,  1.5676, -1.1472, -1.5822],
+         [ 1.5936, -0.4113,  0.6037,  ..., -0.6494,  1.2858,  0.4321]]])
+
+    def test_rmsnorm(numpy_snapshot, ts_state_dict, in_embeddings):
+        state_dict, _ = ts_state_dict
+        reference_weights = state_dict["layers.1.ln1.weight"]
+        d_model = reference_weights.shape[0]
+    
+>       actual_output = run_rmsnorm(d_model=d_model, eps=1e-5, weights=reference_weights, in_features=in_embeddings)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_model.py:181: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+d_model = 64, eps = 1e-05
+weights = tensor([0.9050, 0.8366, 0.7248, 0.6513, 0.8690, 0.7719, 0.8492, 0.8615, 0.6426,
+        0.9254, 0.7387, 0.7531, 0.9166....8457, 0.8530, 0.8500,
+        0.7135, 0.6711, 0.7081, 0.8161, 0.9134, 0.7955, 0.7472, 0.6888, 0.7708,
+        0.6498])
+in_features = tensor([[[-0.9414,  1.2632, -0.1838,  ..., -0.1941,  0.0048, -1.3165],
+         [ 0.0204, -0.1652,  0.2109,  ...,  0.6...73, -0.5486,  ...,  1.5676, -1.1472, -1.5822],
+         [ 1.5936, -0.4113,  0.6037,  ..., -0.6494,  1.2858,  0.4321]]])
+
+    def run_rmsnorm(
+        d_model: int,
+        eps: float,
+        weights: Float[Tensor, " d_model"],
+        in_features: Float[Tensor, " ... d_model"],
+    ) -> Float[Tensor, " ... d_model"]:
+        """Given the weights of a RMSNorm affine transform,
+        return the output of running RMSNorm on the input features.
+    
+        Args:
+            d_model (int): The dimensionality of the RMSNorm input.
+            eps: (float): A value added to the denominator for numerical stability.
+            weights (Float[Tensor, "d_model"]): RMSNorm weights.
+            in_features (Float[Tensor, "... d_model"]): Input features to run RMSNorm on. Can have arbitrary leading
+                dimensions.
+    
+        Returns:
+            Float[Tensor,"... d_model"]: Tensor of with the same shape as `in_features` with the output of running
+            RMSNorm of the `in_features`.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:421: NotImplementedError
+__________________________________ test_rope __________________________________
+
+numpy_snapshot = <tests.conftest.NumpySnapshot object at 0x00000168E56E8140>
+in_embeddings = tensor([[[-0.9414,  1.2632, -0.1838,  ..., -0.1941,  0.0048, -1.3165],
+         [ 0.0204, -0.1652,  0.2109,  ...,  0.6...73, -0.5486,  ...,  1.5676, -1.1472, -1.5822],
+         [ 1.5936, -0.4113,  0.6037,  ..., -0.6494,  1.2858,  0.4321]]])
+d_model = 64, theta = 10000.0, n_queries = 12
+pos_ids = tensor([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11])
+
+    def test_rope(numpy_snapshot, in_embeddings, d_model, theta, n_queries, pos_ids):
+>       output = run_rope(
+            d_model, theta=theta, max_seq_len=n_queries, in_query_or_key=in_embeddings, token_positions=pos_ids
+        )
+
+tests\test_model.py:187: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+d_k = 64, theta = 10000.0, max_seq_len = 12
+in_query_or_key = tensor([[[-0.9414,  1.2632, -0.1838,  ..., -0.1941,  0.0048, -1.3165],
+         [ 0.0204, -0.1652,  0.2109,  ...,  0.6...73, -0.5486,  ...,  1.5676, -1.1472, -1.5822],
+         [ 1.5936, -0.4113,  0.6037,  ..., -0.6494,  1.2858,  0.4321]]])
+token_positions = tensor([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11])
+
+    def run_rope(
+        d_k: int,
+        theta: float,
+        max_seq_len: int,
+        in_query_or_key: Float[Tensor, " ... sequence_length d_k"],
+        token_positions: Int[Tensor, " ... sequence_length"],
+    ) -> Float[Tensor, " ... sequence_length d_k"]:
+        """
+        Run RoPE for a given input tensor.
+    
+        Args:
+            d_k (int): Embedding dimension size for the query or key tensor.
+            theta (float): RoPE parameter.
+            max_seq_len (int): Maximum sequence length to pre-cache if your implementation does that.
+            in_query_or_key (Float[Tensor, "... sequence_length d_k"]): Input tensor to run RoPE on.
+            token_positions (Int[Tensor, "... sequence_length"]): Tensor of shape (batch_size, sequence_length) with the token positions
+        Returns:
+            Float[Tensor, " ... sequence_length d_k"]: Tensor with RoPEd input.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:243: NotImplementedError
+__________________________ test_silu_matches_pytorch __________________________
+
+    def test_silu_matches_pytorch():
+        x = torch.tensor(
+            [
+                [0.2352, 0.9259, 0.5189, 0.4725, 0.9730],
+                [0.7581, 0.9692, 0.2129, 0.9345, 0.0149],
+            ]
+        )
+        expected_output = F.silu(x)
+>       actual_output = run_silu(x)
+                        ^^^^^^^^^^^
+
+tests\test_model.py:201: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+in_features = tensor([[0.2352, 0.9259, 0.5189, 0.4725, 0.9730],
+        [0.7581, 0.9692, 0.2129, 0.9345, 0.0149]])
+
+    def run_silu(in_features: Float[Tensor, " ..."]) -> Float[Tensor, " ..."]:
+        """Given a tensor of inputs, return the output of applying SiLU
+        to each element.
+    
+        Args:
+            in_features(Float[Tensor, "..."]): Input features to run SiLU on. Shape is arbitrary.
+    
+        Returns:
+            Float[Tensor,"..."]: of with the same shape as `in_features` with the output of applying
+            SiLU to each element.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:435: NotImplementedError
+________________________ test_softmax_matches_pytorch _________________________
+
+    def test_softmax_matches_pytorch():
+        x = torch.tensor(
+            [
+                [0.4655, 0.8303, 0.9608, 0.9656, 0.6840],
+                [0.2583, 0.2198, 0.9334, 0.2995, 0.1722],
+                [0.1573, 0.6860, 0.1327, 0.7284, 0.6811],
+            ]
+        )
+        expected = F.softmax(x, dim=-1)
+>       numpy.testing.assert_allclose(run_softmax(x, dim=-1).detach().numpy(), expected.detach().numpy(), atol=1e-6)
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_nn_utils.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+in_features = tensor([[0.4655, 0.8303, 0.9608, 0.9656, 0.6840],
+        [0.2583, 0.2198, 0.9334, 0.2995, 0.1722],
+        [0.1573, 0.6860, 0.1327, 0.7284, 0.6811]])
+dim = -1
+
+    def run_softmax(in_features: Float[Tensor, " ..."], dim: int) -> Float[Tensor, " ..."]:
+        """
+        Given a tensor of inputs, return the output of softmaxing the given `dim`
+        of the input.
+    
+        Args:
+            in_features (Float[Tensor, "..."]): Input features to softmax. Shape is arbitrary.
+            dim (int): Dimension of the `in_features` to apply softmax to.
+    
+        Returns:
+            Float[Tensor, "..."]: Tensor of with the same shape as `in_features` with the output of
+            softmax normalizing the specified `dim`.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:474: NotImplementedError
+_____________________________ test_cross_entropy ______________________________
+
+    def test_cross_entropy():
+        inputs = torch.tensor(
+            [
+                [
+                    [0.1088, 0.1060, 0.6683, 0.5131, 0.0645],
+                    [0.4538, 0.6852, 0.2520, 0.3792, 0.2675],
+                    [0.4578, 0.3357, 0.6384, 0.0481, 0.5612],
+                    [0.9639, 0.8864, 0.1585, 0.3038, 0.0350],
+                ],
+                [
+                    [0.3356, 0.9013, 0.7052, 0.8294, 0.8334],
+                    [0.6333, 0.4434, 0.1428, 0.5739, 0.3810],
+                    [0.9476, 0.5917, 0.7037, 0.2987, 0.6208],
+                    [0.8541, 0.1803, 0.2054, 0.4775, 0.8199],
+                ],
+            ]
+        )
+        targets = torch.tensor([[1, 0, 2, 2], [4, 1, 4, 0]])
+        expected = F.cross_entropy(inputs.view(-1, inputs.size(-1)), targets.view(-1))
+        numpy.testing.assert_allclose(
+>           run_cross_entropy(inputs.view(-1, inputs.size(-1)), targets.view(-1)).detach().numpy(),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            expected.detach().numpy(),
+            atol=1e-4,
+        )
+
+tests\test_nn_utils.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+inputs = tensor([[0.1088, 0.1060, 0.6683, 0.5131, 0.0645],
+        [0.4538, 0.6852, 0.2520, 0.3792, 0.2675],
+        [0.4578, 0..., 0.5739, 0.3810],
+        [0.9476, 0.5917, 0.7037, 0.2987, 0.6208],
+        [0.8541, 0.1803, 0.2054, 0.4775, 0.8199]])
+targets = tensor([1, 0, 2, 2, 4, 1, 4, 0])
+
+    def run_cross_entropy(
+        inputs: Float[Tensor, " batch_size vocab_size"], targets: Int[Tensor, " batch_size"]
+    ) -> Float[Tensor, ""]:
+        """Given a tensor of inputs and targets, compute the average cross-entropy
+        loss across examples.
+    
+        Args:
+            inputs (Float[Tensor, "batch_size vocab_size"]): inputs[i][j] is the
+                unnormalized logit of jth class for the ith example.
+            targets (Int[Tensor, "batch_size"]): Tensor of shape (batch_size,) with the index of the correct class.
+                Each value must be between 0 and `num_classes - 1`.
+    
+        Returns:
+            Float[Tensor, ""]: The average cross-entropy loss across examples.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:492: NotImplementedError
+___________________________ test_gradient_clipping ____________________________
+
+    def test_gradient_clipping():
+        tensors = [torch.randn((5, 5)) for _ in range(6)]
+        max_norm = 1e-2
+    
+        t1 = tuple(torch.nn.Parameter(torch.clone(t)) for t in tensors)
+        # Test freezing one parameter.
+        t1[-1].requires_grad_(False)
+    
+        loss = torch.cat(t1).sum()
+        loss.backward()
+        clip_grad_norm_(t1, max_norm)
+        t1_grads = [torch.clone(t.grad) for t in t1 if t.grad is not None]
+    
+        t1_c = tuple(torch.nn.Parameter(torch.clone(t)) for t in tensors)
+        t1_c[-1].requires_grad_(False)
+        loss_c = torch.cat(t1_c).sum()
+        loss_c.backward()
+>       run_gradient_clipping(t1_c, max_norm)
+
+tests\test_nn_utils.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+parameters = (Parameter containing:
+tensor([[-1.1690, -1.0330,  0.1898, -0.9892,  0.2509],
+        [-1.6767,  1.4562,  0.9681, -0.2....9786],
+        [-0.3197,  1.8108, -1.2725, -1.1709,  0.8299],
+        [ 2.0029,  1.7995, -0.2501,  0.1244, -0.4229]]))
+max_l2_norm = 0.01
+
+    def run_gradient_clipping(parameters: Iterable[torch.nn.Parameter], max_l2_norm: float) -> None:
+        """Given a set of parameters, clip their combined gradients to have l2 norm at most max_l2_norm.
+    
+        Args:
+            parameters (Iterable[torch.nn.Parameter]): collection of trainable parameters.
+            max_l2_norm (float): a positive value containing the maximum l2-norm.
+    
+        The gradients of the parameters (parameter.grad) should be modified in-place.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:504: NotImplementedError
+_________________________________ test_adamw __________________________________
+
+numpy_snapshot = <tests.conftest.NumpySnapshot object at 0x00000168EA11A430>
+
+    def test_adamw(numpy_snapshot):
+        """
+        Our reference implementation yields slightly different results than the
+        PyTorch AdamW, since there are a couple different ways that you can apply
+        weight decay that are equivalent in principle, but differ in practice due to
+        floating point behavior. So, we test that the provided implementation matches
+        _either_ our reference implementation's expected results or those from the PyTorch AdamW.
+        """
+        # expected_weights = torch.load(FIXTURES_PATH / "adamw_expected_params.pt")
+        pytorch_weights = _optimize(torch.optim.AdamW)
+>       actual_weights = _optimize(get_adamw_cls())
+                                   ^^^^^^^^^^^^^^^
+
+tests\test_optimizer.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_adamw_cls() -> Any:
+        """
+        Returns a torch.optim.Optimizer that implements AdamW.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:511: NotImplementedError
+_________________________ test_get_lr_cosine_schedule _________________________
+
+    def test_get_lr_cosine_schedule():
+        max_learning_rate = 1
+        min_learning_rate = 1 * 0.1
+        warmup_iters = 7
+        cosine_cycle_iters = 21
+    
+        expected_lrs = [
+            0,
+            0.14285714285714285,
+            0.2857142857142857,
+            0.42857142857142855,
+            0.5714285714285714,
+            0.7142857142857143,
+            0.8571428571428571,
+            1.0,
+            0.9887175604818206,
+            0.9554359905560885,
+            0.9018241671106134,
+            0.8305704108364301,
+            0.7452476826029011,
+            0.6501344202803414,
+            0.55,
+            0.44986557971965857,
+            0.3547523173970989,
+            0.26942958916356996,
+            0.19817583288938662,
+            0.14456400944391146,
+            0.11128243951817937,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+        ]
+        actual_lrs = [
+>           run_get_lr_cosine_schedule(
+                it=it,
+                max_learning_rate=max_learning_rate,
+                min_learning_rate=min_learning_rate,
+                warmup_iters=warmup_iters,
+                cosine_cycle_iters=cosine_cycle_iters,
+            )
+            for it in range(25)
+        ]
+
+tests\test_optimizer.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+it = 0, max_learning_rate = 1, min_learning_rate = 0.1, warmup_iters = 7
+cosine_cycle_iters = 21
+
+    def run_get_lr_cosine_schedule(
+        it: int,
+        max_learning_rate: float,
+        min_learning_rate: float,
+        warmup_iters: int,
+        cosine_cycle_iters: int,
+    ):
+        """
+        Given the parameters of a cosine learning rate decay schedule (with linear
+        warmup) and an iteration number, return the learning rate at the given
+        iteration under the specified schedule.
+    
+        Args:
+            it (int): Iteration number to get learning rate for.
+            max_learning_rate (float): alpha_max, the maximum learning rate for
+                cosine learning rate schedule (with warmup).
+            min_learning_rate (float): alpha_min, the minimum / final learning rate for
+                the cosine learning rate schedule (with warmup).
+            warmup_iters (int): T_w, the number of iterations to linearly warm-up
+                the learning rate.
+            cosine_cycle_iters (int): T_c, the number of cosine annealing iterations.
+    
+        Returns:
+            Learning rate at the given iteration under the specified schedule.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:539: NotImplementedError
+_____________________________ test_checkpointing ______________________________
+
+tmp_path = WindowsPath('C:/Users/fylqx/AppData/Local/Temp/pytest-of-fylqx/pytest-9/test_checkpointing0')
+
+    def test_checkpointing(tmp_path):
+        torch.manual_seed(42)
+        d_input = 100
+        d_output = 10
+        num_iters = 10
+    
+        model = _TestNet(d_input=d_input, d_output=d_output)
+>       optimizer = get_adamw_cls()(
+                    ^^^^^^^^^^^^^^^
+            model.parameters(),
+            lr=1e-3,
+            weight_decay=0.01,
+            betas=(0.9, 0.999),
+            eps=1e-8,
+        )
+
+tests\test_serialization.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_adamw_cls() -> Any:
+        """
+        Returns a torch.optim.Optimizer that implements AdamW.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:511: NotImplementedError
+____________________________ test_roundtrip_empty _____________________________
+
+    def test_roundtrip_empty():
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:88: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+_________________________ test_empty_matches_tiktoken _________________________
+
+    def test_empty_matches_tiktoken():
+        reference_tokenizer = tiktoken.get_encoding("gpt2")
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:100: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+_______________________ test_roundtrip_single_character _______________________
+
+    def test_roundtrip_single_character():
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+___________________ test_single_character_matches_tiktoken ____________________
+
+    def test_single_character_matches_tiktoken():
+        reference_tokenizer = tiktoken.get_encoding("gpt2")
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+___________________ test_roundtrip_single_unicode_character ___________________
+
+    def test_roundtrip_single_unicode_character():
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+_______________ test_single_unicode_character_matches_tiktoken ________________
+
+    def test_single_unicode_character_matches_tiktoken():
+        reference_tokenizer = tiktoken.get_encoding("gpt2")
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:160: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+_________________________ test_roundtrip_ascii_string _________________________
+
+    def test_roundtrip_ascii_string():
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+_____________________ test_ascii_string_matches_tiktoken ______________________
+
+    def test_ascii_string_matches_tiktoken():
+        reference_tokenizer = tiktoken.get_encoding("gpt2")
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH, merges_path=MERGES_PATH, special_tokens=["<|endoftext|>"]
+        )
+
+tests\test_tokenizer.py:187: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = ['<|endoftext|>']
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+________________________ test_roundtrip_unicode_string ________________________
+
+    def test_roundtrip_unicode_string():
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:204: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+____________________ test_unicode_string_matches_tiktoken _____________________
+
+    def test_unicode_string_matches_tiktoken():
+        reference_tokenizer = tiktoken.get_encoding("gpt2")
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH, merges_path=MERGES_PATH, special_tokens=["<|endoftext|>"]
+        )
+
+tests\test_tokenizer.py:216: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = ['<|endoftext|>']
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+______________ test_roundtrip_unicode_string_with_special_tokens ______________
+
+    def test_roundtrip_unicode_string_with_special_tokens():
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH, merges_path=MERGES_PATH, special_tokens=["<|endoftext|>"]
+        )
+
+tests\test_tokenizer.py:230: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = ['<|endoftext|>']
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+__________ test_unicode_string_with_special_tokens_matches_tiktoken ___________
+
+    def test_unicode_string_with_special_tokens_matches_tiktoken():
+        reference_tokenizer = tiktoken.get_encoding("gpt2")
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH, merges_path=MERGES_PATH, special_tokens=["<|endoftext|>"]
+        )
+
+tests\test_tokenizer.py:245: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = ['<|endoftext|>']
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+_______________________ test_overlapping_special_tokens _______________________
+
+    def test_overlapping_special_tokens():
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+            special_tokens=["<|endoftext|>", "<|endoftext|><|endoftext|>"],
+        )
+
+tests\test_tokenizer.py:259: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = ['<|endoftext|>', '<|endoftext|><|endoftext|>']
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+___________________________ test_address_roundtrip ____________________________
+
+    def test_address_roundtrip():
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+________________________ test_address_matches_tiktoken ________________________
+
+    def test_address_matches_tiktoken():
+        reference_tokenizer = tiktoken.get_encoding("gpt2")
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:289: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+____________________________ test_german_roundtrip ____________________________
+
+    def test_german_roundtrip():
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:305: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+________________________ test_german_matches_tiktoken _________________________
+
+    def test_german_matches_tiktoken():
+        reference_tokenizer = tiktoken.get_encoding("gpt2")
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:318: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+______________________ test_tinystories_sample_roundtrip ______________________
+
+    def test_tinystories_sample_roundtrip():
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:334: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+______________________ test_tinystories_matches_tiktoken ______________________
+
+    def test_tinystories_matches_tiktoken():
+        reference_tokenizer = tiktoken.get_encoding("gpt2")
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH, merges_path=MERGES_PATH, special_tokens=["<|endoftext|>"]
+        )
+
+tests\test_tokenizer.py:347: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = ['<|endoftext|>']
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+_________________ test_encode_special_token_trailing_newlines _________________
+
+    def test_encode_special_token_trailing_newlines():
+        reference_tokenizer = tiktoken.get_encoding("gpt2")
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH, merges_path=MERGES_PATH, special_tokens=["<|endoftext|>"]
+        )
+
+tests\test_tokenizer.py:363: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = ['<|endoftext|>']
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+___________ test_encode_special_token_double_newline_non_whitespace ___________
+
+    def test_encode_special_token_double_newline_non_whitespace():
+        reference_tokenizer = tiktoken.get_encoding("gpt2")
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH, merges_path=MERGES_PATH, special_tokens=["<|endoftext|>"]
+        )
+
+tests\test_tokenizer.py:379: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = ['<|endoftext|>']
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+______________ test_encode_iterable_tinystories_sample_roundtrip ______________
+
+    def test_encode_iterable_tinystories_sample_roundtrip():
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH,
+            merges_path=MERGES_PATH,
+        )
+
+tests\test_tokenizer.py:394: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = None
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+______________ test_encode_iterable_tinystories_matches_tiktoken ______________
+
+    def test_encode_iterable_tinystories_matches_tiktoken():
+        reference_tokenizer = tiktoken.get_encoding("gpt2")
+>       tokenizer = get_tokenizer_from_vocab_merges_path(
+            vocab_path=VOCAB_PATH, merges_path=MERGES_PATH, special_tokens=["<|endoftext|>"]
+        )
+
+tests\test_tokenizer.py:409: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+vocab_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_vocab.json')
+merges_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/gpt2_merges.txt')
+special_tokens = ['<|endoftext|>']
+
+    def get_tokenizer_from_vocab_merges_path(
+        vocab_path: str | os.PathLike,
+        merges_path: str | os.PathLike,
+        special_tokens: list[str] | None = None,
+    ):
+        gpt2_byte_decoder = {v: k for k, v in gpt2_bytes_to_unicode().items()}
+        with open(vocab_path) as vocab_f:
+            gpt2_vocab = json.load(vocab_f)
+        gpt2_bpe_merges = []
+        with open(merges_path) as f:
+            for line in f:
+                cleaned_line = line.rstrip()
+                if cleaned_line and len(cleaned_line.split(" ")) == 2:
+                    gpt2_bpe_merges.append(tuple(cleaned_line.split(" ")))
+        # The GPT-2 tokenizer uses a remapped unicode encoding for bytes. Let's
+        # just return the original bytes, so we don't force students to use
+        # any particular encoding scheme.
+        vocab = {
+            gpt2_vocab_index: bytes([gpt2_byte_decoder[token] for token in gpt2_vocab_item])
+            for gpt2_vocab_item, gpt2_vocab_index in gpt2_vocab.items()
+        }
+        # If any of the special tokens don't exist in the vocab, append them to the vocab.
+        if special_tokens:
+            for special_token in special_tokens:
+                byte_encoded_special_token = special_token.encode("utf-8")
+                if byte_encoded_special_token not in set(vocab.values()):
+                    vocab[len(vocab)] = byte_encoded_special_token
+    
+        merges = [
+            (
+>               bytes([gpt2_byte_decoder[token] for token in merge_token_1]),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+                bytes([gpt2_byte_decoder[token] for token in merge_token_2]),
+            )
+            for merge_token_1, merge_token_2 in gpt2_bpe_merges
+        ]
+E       KeyError: 'Ġ'
+
+tests\test_tokenizer.py:79: KeyError
+____________________________ test_train_bpe_speed _____________________________
+
+    def test_train_bpe_speed():
+        """
+        Ensure that BPE training is relatively efficient by measuring training
+        time on this small dataset and throwing an error if it takes more than 1.5 seconds.
+        This is a pretty generous upper-bound, it takes 0.38 seconds with the
+        reference implementation on my laptop. In contrast, the toy implementation
+        takes around 3 seconds.
+        """
+        input_path = FIXTURES_PATH / "corpus.en"
+        start_time = time.time()
+>       _, _ = run_train_bpe(
+            input_path=input_path,
+            vocab_size=500,
+            special_tokens=["<|endoftext|>"],
+        )
+
+tests\test_train_bpe.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+input_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/corpus.en')
+vocab_size = 500, special_tokens = ['<|endoftext|>'], kwargs = {}
+
+    def run_train_bpe(
+        input_path: str | os.PathLike,
+        vocab_size: int,
+        special_tokens: list[str],
+        **kwargs,
+    ) -> tuple[dict[int, bytes], list[tuple[bytes, bytes]]]:
+        """Given the path to an input corpus, run train a BPE tokenizer and
+        output its vocabulary and merges.
+    
+        Args:
+            input_path (str | os.PathLike): Path to BPE tokenizer training data.
+            vocab_size (int): Total number of items in the tokenizer's vocabulary (including special tokens).
+            special_tokens (list[str]): A list of string special tokens to be added to the tokenizer vocabulary.
+                These strings will never be split into multiple tokens, and will always be
+                kept as a single token. If these special tokens occur in the `input_path`,
+                they are treated as any other string.
+    
+        Returns:
+            tuple[dict[int, bytes], list[tuple[bytes, bytes]]]:
+                vocab:
+                    The trained tokenizer vocabulary, a mapping from int (token ID in the vocabulary)
+                    to bytes (token bytes)
+                merges:
+                    BPE merges. Each list item is a tuple of bytes (<token1>, <token2>),
+                    representing that <token1> was merged with <token2>.
+                    Merges are ordered by order of creation.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:632: NotImplementedError
+_______________________________ test_train_bpe ________________________________
+
+    def test_train_bpe():
+        input_path = FIXTURES_PATH / "corpus.en"
+>       vocab, merges = run_train_bpe(
+            input_path=input_path,
+            vocab_size=500,
+            special_tokens=["<|endoftext|>"],
+        )
+
+tests\test_train_bpe.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+input_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/corpus.en')
+vocab_size = 500, special_tokens = ['<|endoftext|>'], kwargs = {}
+
+    def run_train_bpe(
+        input_path: str | os.PathLike,
+        vocab_size: int,
+        special_tokens: list[str],
+        **kwargs,
+    ) -> tuple[dict[int, bytes], list[tuple[bytes, bytes]]]:
+        """Given the path to an input corpus, run train a BPE tokenizer and
+        output its vocabulary and merges.
+    
+        Args:
+            input_path (str | os.PathLike): Path to BPE tokenizer training data.
+            vocab_size (int): Total number of items in the tokenizer's vocabulary (including special tokens).
+            special_tokens (list[str]): A list of string special tokens to be added to the tokenizer vocabulary.
+                These strings will never be split into multiple tokens, and will always be
+                kept as a single token. If these special tokens occur in the `input_path`,
+                they are treated as any other string.
+    
+        Returns:
+            tuple[dict[int, bytes], list[tuple[bytes, bytes]]]:
+                vocab:
+                    The trained tokenizer vocabulary, a mapping from int (token ID in the vocabulary)
+                    to bytes (token bytes)
+                merges:
+                    BPE merges. Each list item is a tuple of bytes (<token1>, <token2>),
+                    representing that <token1> was merged with <token2>.
+                    Merges are ordered by order of creation.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:632: NotImplementedError
+________________________ test_train_bpe_special_tokens ________________________
+
+snapshot = <tests.conftest.Snapshot object at 0x00000168ED0FC2F0>
+
+    def test_train_bpe_special_tokens(snapshot):
+        """
+        Ensure that the special tokens are added to the vocabulary and not
+        merged with other tokens.
+        """
+        input_path = FIXTURES_PATH / "tinystories_sample_5M.txt"
+>       vocab, merges = run_train_bpe(
+            input_path=input_path,
+            vocab_size=1000,
+            special_tokens=["<|endoftext|>"],
+        )
+
+tests\test_train_bpe.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+input_path = WindowsPath('D:/ai_coding/CS336/assignment1-basics-main/tests/fixtures/tinystories_sample_5M.txt')
+vocab_size = 1000, special_tokens = ['<|endoftext|>'], kwargs = {}
+
+    def run_train_bpe(
+        input_path: str | os.PathLike,
+        vocab_size: int,
+        special_tokens: list[str],
+        **kwargs,
+    ) -> tuple[dict[int, bytes], list[tuple[bytes, bytes]]]:
+        """Given the path to an input corpus, run train a BPE tokenizer and
+        output its vocabulary and merges.
+    
+        Args:
+            input_path (str | os.PathLike): Path to BPE tokenizer training data.
+            vocab_size (int): Total number of items in the tokenizer's vocabulary (including special tokens).
+            special_tokens (list[str]): A list of string special tokens to be added to the tokenizer vocabulary.
+                These strings will never be split into multiple tokens, and will always be
+                kept as a single token. If these special tokens occur in the `input_path`,
+                they are treated as any other string.
+    
+        Returns:
+            tuple[dict[int, bytes], list[tuple[bytes, bytes]]]:
+                vocab:
+                    The trained tokenizer vocabulary, a mapping from int (token ID in the vocabulary)
+                    to bytes (token bytes)
+                merges:
+                    BPE merges. Each list item is a tuple of bytes (<token1>, <token2>),
+                    representing that <token1> was merged with <token2>.
+                    Merges are ordered by order of creation.
+        """
+>       raise NotImplementedError
+E       NotImplementedError
+
+tests\adapters.py:632: NotImplementedError
+============================== warnings summary ===============================
+tests\adapters.py:343
+  D:\ai_coding\CS336\assignment1-basics-main\tests\adapters.py:343: SyntaxWarning: invalid escape sequence '\T'
+    rope_theta (float): The RoPE $\Theta$ parameter.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_data.py::test_get_batch - NotImplementedError
+FAILED tests/test_model.py::test_multihead_self_attention - AssertionError: 
+FAILED tests/test_model.py::test_multihead_self_attention_with_rope - NotImpl...
+FAILED tests/test_model.py::test_transformer_lm - NotImplementedError
+FAILED tests/test_model.py::test_transformer_lm_truncated_input - NotImplemen...
+FAILED tests/test_model.py::test_transformer_block - NotImplementedError
+FAILED tests/test_model.py::test_rmsnorm - NotImplementedError
+FAILED tests/test_model.py::test_rope - NotImplementedError
+FAILED tests/test_model.py::test_silu_matches_pytorch - NotImplementedError
+FAILED tests/test_nn_utils.py::test_softmax_matches_pytorch - NotImplementedE...
+FAILED tests/test_nn_utils.py::test_cross_entropy - NotImplementedError
+FAILED tests/test_nn_utils.py::test_gradient_clipping - NotImplementedError
+FAILED tests/test_optimizer.py::test_adamw - NotImplementedError
+FAILED tests/test_optimizer.py::test_get_lr_cosine_schedule - NotImplementedE...
+FAILED tests/test_serialization.py::test_checkpointing - NotImplementedError
+FAILED tests/test_tokenizer.py::test_roundtrip_empty - KeyError: 'Ġ'
+FAILED tests/test_tokenizer.py::test_empty_matches_tiktoken - KeyError: 'Ġ'
+FAILED tests/test_tokenizer.py::test_roundtrip_single_character - KeyError: 'Ġ'
+FAILED tests/test_tokenizer.py::test_single_character_matches_tiktoken - KeyE...
+FAILED tests/test_tokenizer.py::test_roundtrip_single_unicode_character - Key...
+FAILED tests/test_tokenizer.py::test_single_unicode_character_matches_tiktoken
+FAILED tests/test_tokenizer.py::test_roundtrip_ascii_string - KeyError: 'Ġ'
+FAILED tests/test_tokenizer.py::test_ascii_string_matches_tiktoken - KeyError...
+FAILED tests/test_tokenizer.py::test_roundtrip_unicode_string - KeyError: 'Ġ'
+FAILED tests/test_tokenizer.py::test_unicode_string_matches_tiktoken - KeyErr...
+FAILED tests/test_tokenizer.py::test_roundtrip_unicode_string_with_special_tokens
+FAILED tests/test_tokenizer.py::test_unicode_string_with_special_tokens_matches_tiktoken
+FAILED tests/test_tokenizer.py::test_overlapping_special_tokens - KeyError: 'Ġ'
+FAILED tests/test_tokenizer.py::test_address_roundtrip - KeyError: 'Ġ'
+FAILED tests/test_tokenizer.py::test_address_matches_tiktoken - KeyError: 'Ġ'
+FAILED tests/test_tokenizer.py::test_german_roundtrip - KeyError: 'Ġ'
+FAILED tests/test_tokenizer.py::test_german_matches_tiktoken - KeyError: 'Ġ'
+FAILED tests/test_tokenizer.py::test_tinystories_sample_roundtrip - KeyError:...
+FAILED tests/test_tokenizer.py::test_tinystories_matches_tiktoken - KeyError:...
+FAILED tests/test_tokenizer.py::test_encode_special_token_trailing_newlines
+FAILED tests/test_tokenizer.py::test_encode_special_token_double_newline_non_whitespace
+FAILED tests/test_tokenizer.py::test_encode_iterable_tinystories_sample_roundtrip
+FAILED tests/test_tokenizer.py::test_encode_iterable_tinystories_matches_tiktoken
+FAILED tests/test_train_bpe.py::test_train_bpe_speed - NotImplementedError
+FAILED tests/test_train_bpe.py::test_train_bpe - NotImplementedError
+FAILED tests/test_train_bpe.py::test_train_bpe_special_tokens - NotImplemente...
+============= 41 failed, 5 passed, 2 skipped, 1 warning in 3.76s ==============
