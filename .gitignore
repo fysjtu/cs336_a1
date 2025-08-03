@@ -161,3 +161,11 @@ cython_debug/
 
 .ruff_cache/
 *.zip
+
+# Debug files
+debug.txt
+debug_*.txt
+debug_*.py
+test_*.py
+*_debug.txt
+*.debug

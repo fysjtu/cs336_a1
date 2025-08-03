@@ -75,3 +75,72 @@ class TransformerBlock(nn.Module):
         attn_out = x + self.mha(self.norm1(x))
         ffn_out = attn_out + self.ffn(self.norm2(attn_out))
         return ffn_out
+
+
+class TransformerModel(nn.Module):
+    def __init__(self,
+        vocab_size: int,
+        num_layers: int,
+        d_model: int, 
+        num_heads: int, 
+        d_ff: int, 
+        max_seq_len: int,
+        theta: float,
+        eps: float = 1e-5,
+        weights_dict: dict[str, Tensor] = None
+    ):
+        super().__init__()
+
+        self.num_layers = num_layers
+        self.num_heads = num_heads
+        self.d_model = d_model
+        self.d_ff = d_ff
+        self.d_k = d_model // num_heads
+        self.max_seq_len = max_seq_len
+
+        self.weights_extract(weights_dict)
+        self.embd = Embd(vocab_size, d_model, weights=self.trfm_model_weights_dict['embd_weights'])
+        self.transform_layers = nn.ModuleList(
+            TransformerBlock(
+                d_model = d_model, 
+                num_heads = num_heads, 
+                d_ff = d_ff, 
+                max_seq_len = max_seq_len,
+                theta = theta,
+                weights_dict = self.trfm_model_weights_dict['trfm_weights_list'][i]
+            ) for i in range(num_layers)
+        )
+        self.final_norm = RMSNorm_Layer(d_model, eps, weights=self.trfm_model_weights_dict['ln_final'])
+        self.final_linear = Linear(d_model, vocab_size, weights = self.trfm_model_weights_dict['final_linear'])
+
+    def weights_extract(self, weights_dict):
+        self.trfm_model_weights_dict ={
+            'trfm_weights_list':[
+                {
+                    'attn.q_proj.weight': weights_dict.get(('layers.{}.attn.q_proj.weight'.format(str(i))), None),
+                    'attn.k_proj.weight': weights_dict.get(('layers.{}.attn.k_proj.weight'.format(str(i))), None),
+                    'attn.v_proj.weight': weights_dict.get(('layers.{}.attn.v_proj.weight'.format(str(i))), None),
+                    'attn.o_proj.weight': weights_dict.get(('layers.{}.attn.o_proj.weight'.format(str(i))), None),
+                    'ffn.w1.weight': weights_dict.get(('layers.{}.ffn.w1.weight'.format(str(i))), None),
+                    'ffn.w2.weight': weights_dict.get(('layers.{}.ffn.w2.weight'.format(str(i))), None),
+                    'ffn.w3.weight': weights_dict.get(('layers.{}.ffn.w3.weight'.format(str(i))), None),
+                    'ln1.weight': weights_dict.get(('layers.{}.ln1.weight'.format(str(i))), None),
+                    'ln2.weight': weights_dict.get(('layers.{}.ln2.weight'.format(str(i))), None)
+                }   for i in range(self.num_layers)
+            ],
+            'embd_weights': weights_dict.get('token_embeddings.weight', None),
+            'ln_final': weights_dict.get('ln_final.weight', None),
+            'final_linear': weights_dict.get('lm_head.weight', None),
+        }
+
+    def forward(self, indices):
+        x =  self.embd(indices) # [b, slen, dim]
+        for i in range(self.num_layers): 
+            x = self.transform_layers[i](x) # [b, slen, dim]
+        x = self.final_norm(x)
+        x = self.final_linear(x) # [b, slen, vocab_size]
+        return x
+    
+    def predict(self, x):
+        x = self.forward(x)
+        return x

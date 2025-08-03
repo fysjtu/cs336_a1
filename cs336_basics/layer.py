@@ -39,11 +39,15 @@ class Linear(nn.Module):
 
 
 class Embd(nn.Module):
-    def __init__(self, vocab_size, d_model):
+    def __init__(self, vocab_size, d_model, weights=None):
         super().__init__()
         self.vocab_size = vocab_size
         self.d_model = d_model
-        self.weight = nn.Parameter(utils.normal_init([vocab_size, d_model])) # [vocab, d_model]
+        if weights is not None:
+            self.weight = nn.Parameter(torch.zeros(vocab_size, d_model)) # [vocab, d_model]
+            self.weight.data.copy_(weights)
+        else:
+            self.weight = nn.Parameter(utils.normal_init([vocab_size, d_model])) # [vocab, d_model]
 
     def forward(self, x):
         return self.weight[x]
