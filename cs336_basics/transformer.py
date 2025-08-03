@@ -134,7 +134,6 @@ class TransformerModel(nn.Module):
                 'final_linear': weights_dict.get('lm_head.weight', None),
             }
         else:
-            # 如果没有提供权重字典，所有权重都设为None
             self.trfm_model_weights_dict = {
                 'trfm_weights_list': [None for _ in range(self.num_layers)],
                 'embd_weights': None,

@@ -13,6 +13,7 @@ import math
 from cs336_basics.layer import *
 from cs336_basics.attention import *
 from cs336_basics.transformer import *
+from cs336_basics.loss import *
 
 
 def run_linear(
@@ -437,7 +438,8 @@ def run_silu(in_features: Float[Tensor, " ..."]) -> Float[Tensor, " ..."]:
         Float[Tensor,"..."]: of with the same shape as `in_features` with the output of applying
         SiLU to each element.
     """
-    raise NotImplementedError
+    return swish_activation(in_features)
+    # raise NotImplementedError
 
 
 def run_get_batch(
@@ -476,7 +478,8 @@ def run_softmax(in_features: Float[Tensor, " ..."], dim: int) -> Float[Tensor, "
         Float[Tensor, "..."]: Tensor of with the same shape as `in_features` with the output of
         softmax normalizing the specified `dim`.
     """
-    raise NotImplementedError
+    return softmax(in_features)
+    # raise NotImplementedError
 
 
 def run_cross_entropy(
@@ -494,7 +497,8 @@ def run_cross_entropy(
     Returns:
         Float[Tensor, ""]: The average cross-entropy loss across examples.
     """
-    raise NotImplementedError
+    return ce_loss(inputs, targets)
+    # raise NotImplementedError
 
 
 def run_gradient_clipping(parameters: Iterable[torch.nn.Parameter], max_l2_norm: float) -> None:
@@ -506,7 +510,8 @@ def run_gradient_clipping(parameters: Iterable[torch.nn.Parameter], max_l2_norm:
 
     The gradients of the parameters (parameter.grad) should be modified in-place.
     """
-    raise NotImplementedError
+    return gradient_clipping(parameters, max_l2_norm)
+    # raise NotImplementedError
 
 
 def get_adamw_cls() -> Any:
@@ -541,7 +546,9 @@ def run_get_lr_cosine_schedule(
     Returns:
         Learning rate at the given iteration under the specified schedule.
     """
-    raise NotImplementedError
+    # raise NotImplementedError
+    scheduler = LR_Cosine_Schedule(max_learning_rate, min_learning_rate, warmup_iters, cosine_cycle_iters)
+    return scheduler.get_lr_at_it(it) 
 
 
 def run_save_checkpoint(
