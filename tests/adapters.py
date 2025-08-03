@@ -300,7 +300,7 @@ def run_transformer_block(
         d_ff, 
         max_seq_len,
         theta,
-        weights_dict=None
+        weights_dict=weights
     )
     out = model(in_features)
     return out

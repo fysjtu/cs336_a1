@@ -25,7 +25,7 @@ class Linear(nn.Module):
             self.weight = nn.Parameter(torch.zeros(out_dim, in_dim))
             self.weights_init(weights)
         else:
-            self.weight = nn.Parameter(utils.xavier_init((out_dim, in_dim)))
+            self.weight = nn.Parameter(utils.xavier_init((in_dim, out_dim)))
     
     def weights_init(self, weights):
         try:

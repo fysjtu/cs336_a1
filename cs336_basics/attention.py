@@ -60,7 +60,6 @@ class MultiheadSelfAttention(nn.Module):
         else:
             self.qkv_weight = None
             self.o_weight = None
-        print('self.qkv',self.qkv_weight, self.o_weight)
         self.qkv_proj = Linear(d_model, 3*self.d_model, self.qkv_weight)
         self.o_proj = Linear(d_model, d_model, self.o_weight)
 

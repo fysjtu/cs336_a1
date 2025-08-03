@@ -1,0 +1,17 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.3, pytest-8.4.1, pluggy-1.6.0 -- D:\ai_coding\CS336\assignment1-basics-main\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\ai_coding\CS336\assignment1-basics-main
+configfile: pyproject.toml
+plugins: jaxtyping-0.3.2
+collecting ... collected 1 item
+
+tests/test_model.py::test_transformer_block PASSED
+
+============================== warnings summary ===============================
+tests\adapters.py:335
+  D:\ai_coding\CS336\assignment1-basics-main\tests\adapters.py:335: SyntaxWarning: invalid escape sequence '\T'
+    rope_theta (float): The RoPE $\Theta$ parameter.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 1 passed, 1 warning in 1.02s =========================
