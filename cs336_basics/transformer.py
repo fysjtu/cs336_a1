@@ -114,24 +114,33 @@ class TransformerModel(nn.Module):
         self.final_linear = Linear(d_model, vocab_size, weights = self.trfm_model_weights_dict['final_linear'])
 
     def weights_extract(self, weights_dict):
-        self.trfm_model_weights_dict ={
-            'trfm_weights_list':[
-                {
-                    'attn.q_proj.weight': weights_dict.get(('layers.{}.attn.q_proj.weight'.format(str(i))), None),
-                    'attn.k_proj.weight': weights_dict.get(('layers.{}.attn.k_proj.weight'.format(str(i))), None),
-                    'attn.v_proj.weight': weights_dict.get(('layers.{}.attn.v_proj.weight'.format(str(i))), None),
-                    'attn.o_proj.weight': weights_dict.get(('layers.{}.attn.o_proj.weight'.format(str(i))), None),
-                    'ffn.w1.weight': weights_dict.get(('layers.{}.ffn.w1.weight'.format(str(i))), None),
-                    'ffn.w2.weight': weights_dict.get(('layers.{}.ffn.w2.weight'.format(str(i))), None),
-                    'ffn.w3.weight': weights_dict.get(('layers.{}.ffn.w3.weight'.format(str(i))), None),
-                    'ln1.weight': weights_dict.get(('layers.{}.ln1.weight'.format(str(i))), None),
-                    'ln2.weight': weights_dict.get(('layers.{}.ln2.weight'.format(str(i))), None)
-                }   for i in range(self.num_layers)
-            ],
-            'embd_weights': weights_dict.get('token_embeddings.weight', None),
-            'ln_final': weights_dict.get('ln_final.weight', None),
-            'final_linear': weights_dict.get('lm_head.weight', None),
-        }
+        if weights_dict is not None:
+            self.trfm_model_weights_dict = {
+                'trfm_weights_list': [
+                    {
+                        'attn.q_proj.weight': weights_dict.get(f'layers.{i}.attn.q_proj.weight', None),
+                        'attn.k_proj.weight': weights_dict.get(f'layers.{i}.attn.k_proj.weight', None),
+                        'attn.v_proj.weight': weights_dict.get(f'layers.{i}.attn.v_proj.weight', None),
+                        'attn.output_proj.weight': weights_dict.get(f'layers.{i}.attn.output_proj.weight', None), 
+                        'ffn.w1.weight': weights_dict.get(f'layers.{i}.ffn.w1.weight', None),
+                        'ffn.w2.weight': weights_dict.get(f'layers.{i}.ffn.w2.weight', None),
+                        'ffn.w3.weight': weights_dict.get(f'layers.{i}.ffn.w3.weight', None),
+                        'ln1.weight': weights_dict.get(f'layers.{i}.ln1.weight', None),
+                        'ln2.weight': weights_dict.get(f'layers.{i}.ln2.weight', None)
+                    } for i in range(self.num_layers)
+                ],
+                'embd_weights': weights_dict.get('token_embeddings.weight', None),
+                'ln_final': weights_dict.get('ln_final.weight', None),
+                'final_linear': weights_dict.get('lm_head.weight', None),
+            }
+        else:
+            # 如果没有提供权重字典，所有权重都设为None
+            self.trfm_model_weights_dict = {
+                'trfm_weights_list': [None for _ in range(self.num_layers)],
+                'embd_weights': None,
+                'ln_final': None,
+                'final_linear': None,
+            }
 
     def forward(self, indices):
         x =  self.embd(indices) # [b, slen, dim]
