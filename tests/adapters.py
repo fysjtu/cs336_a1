@@ -14,7 +14,7 @@ from cs336_basics.layer import *
 from cs336_basics.attention import *
 from cs336_basics.transformer import *
 from cs336_basics.loss import *
-
+from cs336_basics.optimizer import *
 
 def run_linear(
     d_in: int,
@@ -518,7 +518,8 @@ def get_adamw_cls() -> Any:
     """
     Returns a torch.optim.Optimizer that implements AdamW.
     """
-    raise NotImplementedError
+    # raise NotImplementedError
+    return CustomAdamW
 
 
 def run_get_lr_cosine_schedule(
